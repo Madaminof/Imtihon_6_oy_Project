@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            max-width: 80%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 10px 0;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h1>Batafsil</h1>
+<img src="{{ gul.image.url }}" alt="Product Image">
+{% for i in view_comment %}
+    <h2>user:{{ i.user }}</h2>
+    <h3>yulduzcha:{{ i.star_given }}</h3>
+    <h3>comment:{{ i.comment }}</h3>
+    <hr>
+{% endfor %}
+
+<a href="{% url 'product:add-comment' gul.pk%}">Add comment</a>
+<a href="{% url 'product:batafsil-malumot' gul.pk%}">Malumot to'ldiring</a>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %} Gul Details {% endblock %}
+
+{% block content %}
+    <style>
+        /* CSS styles for product details */
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .product-item {
+            flex: 0 1 calc(25% - 20px);
+            margin-bottom: 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .product-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .product-item a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .product-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <h1 style="text-align:center">Gullar</h1>
+
+    <div class="product-container">
+        {% for i in gul %}
+            <div class="product-item">
+                <img src="{{ i.image.url }}" alt="Product Image">
+                <a>{{ i.name }}</a>
+                <a>{{ i.price }}</a>
+                <a href="{% url 'product:batafsil-review' i.pk%}">Batafsil</a>
+                <a href="{% url 'product:gul-delete' i.pk%}">Delete</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ books.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #007bff; /* Qizil rang */
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Bu stil formaning har bir elementini o'zgartirish uchun */
+        .form-control {
+            margin-bottom: 10px;
+        }
+
+        /* Bu stil foydalanuvchining sharh qoldirishi uchun */
+        .review-input {
+            width: 100%;
+            height: 100px;
+            resize: none; /* O'lchamlarni o'zgartirmaslik */
+        }
+    </style>
+</head>
+<body>
+<h1>Malumot to'ldiring</h1>
+<form method="post" >
+    {% csrf_token %}
+    {{ malumot_form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

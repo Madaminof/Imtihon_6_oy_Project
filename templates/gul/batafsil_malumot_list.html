@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Foydalanuvchi Malumoti</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 100px;
+            padding: 10px;
+            background-color: #f8f8f8;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .item-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            margin: 10px 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<h1>Foydalanuvchi Malumoti</h1>
+
+{% for item in malumotlar %}
+    <div class="item-container">
+        <h3>Maxsulot: {{ item.product.name }}</h3>
+        <h3>Klient: {{ item.first_name }}</h3>
+        <h3>Tel: {{ item.phone }}</h3>
+    </div>
+{% endfor %}
+
+</body>
+</html>
