@@ -2,19 +2,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
 from django.db.models import Q
-from .forms import AddReviewForm,BatafsilMalumotForm
+from .forms import AddReviewForm, BatafsilMalumotForm
 from .models import Category, GulProduct, Review, BatafsilMalumot
 
 
 class CategoryView(View):
     def get(self, request):
         categories = Category.objects.all()
-        detail_all=GulProduct.objects.all()
-        gul=GulProduct.objects.all()
+        detail_all = GulProduct.objects.all()
+        gul = GulProduct.objects.all()
 
-        search_post=request.GET.get('query')
+        search_post = request.GET.get('query')
         if search_post:
-            gul=gul.filter(
+            gul = gul.filter(
                 Q(name__icontains=search_post) |
                 Q(category__name__icontains=search_post)
             )
@@ -36,7 +36,6 @@ class GulDetailView(View):
         return render(request, 'gul/gul_detail.html', context=context)
 
 
-
 class GulProductDelete(View):
     def get(self, request, pk):
         gul = GulProduct.objects.get(id=pk)
@@ -48,11 +47,11 @@ class BatafsilReview(View):
     def get(self, request, pk):
         gul = GulProduct.objects.get(id=pk)
         review = Review.objects.filter(gul=pk)
-        view_comment=Review.objects.filter(gul=pk)
+        view_comment = Review.objects.filter(gul=pk)
         context = {
             'gul': gul,
-            'review' : review,
-            'view_comment' : view_comment
+            'review': review,
+            'view_comment': view_comment
         }
         return render(request, 'gul/batafsil_review.html', context=context)
 
@@ -81,13 +80,12 @@ class AddComment(LoginRequiredMixin, View):
             return redirect('product:gul-detail', pk=pk)
 
 
-
 class BatafsilMalumotView(View):
     def get(self, request, pk):
-        gullar = GulProduct.objects.get(pk=pk)
+        gul = GulProduct.objects.get(id=pk)
         malumot_form = BatafsilMalumotForm()
         context = {
-            'gullar': gullar,
+            'gul': gul,
             'malumot_form': malumot_form
         }
         return render(request, 'gul/batafsil_malumot.html', context=context)
@@ -95,19 +93,21 @@ class BatafsilMalumotView(View):
     def post(self, request, pk):
         malumot_form = BatafsilMalumotForm(request.POST)
         if malumot_form.is_valid():
-            malumot_form.save()
+            # Assuming you have a way to get the product object
+            product = GulProduct.objects.get(pk=pk)
+            malumot = malumot_form.save(commit=False)
+            malumot.product = product
+            malumot.save()
             return redirect('product:gul-detail', pk=pk)
         else:
             return render(request, 'gul/batafsil_malumot.html', {'malumot_form': malumot_form})
-
-
 
 
 class MalumotView(View):
     def get(self, request):
         malumotlar = BatafsilMalumot.objects.all()
         context = {
-           'malumotlar': malumotlar,
+            'malumotlar': malumotlar,
         }
         return render(request, 'gul/batafsil_malumot_list.html', context=context)
 
@@ -126,5 +126,3 @@ class CheapProduct(View):
         sorted_cheap = products.order_by('price')[:3]
 
         return render(request, 'gul/arzon.html', {'products': sorted_cheap})
-
-

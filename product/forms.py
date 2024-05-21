@@ -14,6 +14,7 @@ class AddReviewForm(forms.ModelForm):
         model = Review
         fields = ['comment','star_given']
 
+
 class BatafsilMalumotForm(forms.ModelForm):
     class Meta:
         model = BatafsilMalumot

@@ -193,11 +193,12 @@
             <a href="{% url 'autentification:login' %}">Login</a>
         {% endif %}
     </nav>
-
+{% if request.user.is_authenticated %}
     <div class="button-container">
         <a href="{% url 'product:expensive' %}">Expensiva</a>
         <a href="{% url 'product:arzon' %}">Cheap</a>
     </div>
+ {% endif %}
 
     <div class="Search-container">
         {% if request.user.is_authenticated %}
