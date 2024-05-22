@@ -50,7 +50,10 @@
                 <a>{{ i.price }}</a>
                 <a href="{% url 'product:batafsil-review' i.pk%}">Batafsil</a>
                 <a href="{% url 'product:gul-delete' i.pk%}">Delete</a>
+
             </div>
+
         {% endfor %}
+
     </div>
 {% endblock content %}
