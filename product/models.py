@@ -18,7 +18,7 @@ class GulProduct(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='media/', default='default_img/default_book_img.png')
+    image = models.ImageField(upload_to='media/' , blank=True, null=True)
 
     class Meta:
         db_table = 'gulcha'

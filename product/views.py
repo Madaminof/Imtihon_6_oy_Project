@@ -93,7 +93,6 @@ class BatafsilMalumotView(View):
     def post(self, request, pk):
         malumot_form = BatafsilMalumotForm(request.POST)
         if malumot_form.is_valid():
-            # Assuming you have a way to get the product object
             product = GulProduct.objects.get(pk=pk)
             malumot = malumot_form.save(commit=False)
             malumot.product = product
