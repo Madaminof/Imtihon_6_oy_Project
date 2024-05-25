@@ -14,11 +14,11 @@ class Category(models.Model):
         return self.name
 
 
-class GulProduct(models.Model):
-    name = models.CharField(max_length=100)
+class Products(models.Model):
+    name = models.TextField()
     price = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='media/' , blank=True, null=True)
+    image = models.ImageField(upload_to='media/', blank=True, null=True)
 
     class Meta:
         db_table = 'gulcha'
@@ -32,7 +32,7 @@ class Review(models.Model):
     star_given = models.IntegerField(
         default=0,
         validators=[MaxValueValidator(5), MinValueValidator(1)])
-    gul = models.ForeignKey(GulProduct, on_delete=models.CASCADE)
+    gul = models.ForeignKey(Products, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     class Meta:
@@ -47,7 +47,7 @@ class Review(models.Model):
 class BatafsilMalumot(models.Model):
     first_name = models.CharField(max_length=100)
     phone=models.CharField(max_length=50)
-    product= models.ForeignKey(GulProduct, on_delete=models.CASCADE)
+    product= models.ForeignKey(Products, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'batafsil_malumot'

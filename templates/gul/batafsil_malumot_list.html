@@ -6,15 +6,27 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 100px;
-            padding: 10px;
+            margin: 0;
+            padding: 0;
             background-color: #f8f8f8;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         h1 {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 50px;
             color: #333;
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 2; }
         }
 
         .item-container {
@@ -22,7 +34,14 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            margin-bottom: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            animation: slideIn 2s ease-out;
+        }
+
+        .item-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         h3 {
@@ -32,15 +51,14 @@
     </style>
 </head>
 <body>
-<h1>Foydalanuvchi Malumoti</h1>
+    <h1>Foydalanuvchi Malumoti</h1>
 
-{% for item in malumotlar %}
+    {% for item in malumotlar %}
     <div class="item-container">
         <h3>Maxsulot: {{ item.product.name }}</h3>
         <h3>Klient: {{ item.first_name }}</h3>
         <h3>Tel: {{ item.phone }}</h3>
     </div>
-{% endfor %}
-
+    {% endfor %}
 </body>
 </html>

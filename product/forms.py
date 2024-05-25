@@ -1,11 +1,11 @@
 from django import forms
 from autentification.models import CustomUser
-from product.models import GulProduct, Review, BatafsilMalumot
+from product.models import Products, Review, BatafsilMalumot
 
 
 class GulForm(forms.ModelForm):
     class Meta:
-        model = GulProduct
+        model = Products
         fields = ['name', 'price','image']
 
 

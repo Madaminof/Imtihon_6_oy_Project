@@ -3,14 +3,14 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.db.models import Q
 from .forms import AddReviewForm, BatafsilMalumotForm
-from .models import Category, GulProduct, Review, BatafsilMalumot
+from .models import Category, Products, Review, BatafsilMalumot
 
 
 class CategoryView(View):
     def get(self, request):
         categories = Category.objects.all()
-        detail_all = GulProduct.objects.all()
-        gul = GulProduct.objects.all()
+        detail_all = Products.objects.all()
+        gul = Products.objects.all()
 
         search_post = request.GET.get('query')
         if search_post:
@@ -29,7 +29,7 @@ class CategoryView(View):
 
 class GulDetailView(View):
     def get(self, request, pk):
-        gul = GulProduct.objects.filter(category_id=pk)
+        gul = Products.objects.filter(category_id=pk)
         context = {
             'gul': gul
         }
@@ -38,14 +38,14 @@ class GulDetailView(View):
 
 class GulProductDelete(View):
     def get(self, request, pk):
-        gul = GulProduct.objects.get(id=pk)
+        gul = Products.objects.get(id=pk)
         gul.delete()
         return redirect('product:gul-list')
 
 
 class BatafsilReview(View):
     def get(self, request, pk):
-        gul = GulProduct.objects.get(id=pk)
+        gul = Products.objects.get(id=pk)
         review = Review.objects.filter(gul=pk)
         view_comment = Review.objects.filter(gul=pk)
         context = {
@@ -58,7 +58,7 @@ class BatafsilReview(View):
 
 class AddComment(LoginRequiredMixin, View):
     def get(self, request, pk):
-        gullar = GulProduct.objects.get(pk=pk)
+        gullar = Products.objects.get(pk=pk)
         addcomment_form = AddReviewForm()
         context = {
             'gullar': gullar,
@@ -67,7 +67,7 @@ class AddComment(LoginRequiredMixin, View):
         return render(request, 'gul/add_review.html', context=context)
 
     def post(self, request, pk):
-        gullar = GulProduct.objects.get(pk=pk)
+        gullar = Products.objects.get(pk=pk)
         addcomment_form = AddReviewForm(request.POST)
         if addcomment_form.is_valid():
             reviews = Review.objects.create(
@@ -77,12 +77,12 @@ class AddComment(LoginRequiredMixin, View):
                 star_given=addcomment_form.cleaned_data['star_given']
             )
             reviews.save()
-            return redirect('product:gul-detail', pk=pk)
+            return redirect('product:batafsil-review', pk=pk)
 
 
 class BatafsilMalumotView(View):
     def get(self, request, pk):
-        gul = GulProduct.objects.get(id=pk)
+        gul = Products.objects.get(id=pk)
         malumot_form = BatafsilMalumotForm()
         context = {
             'gul': gul,
@@ -93,7 +93,7 @@ class BatafsilMalumotView(View):
     def post(self, request, pk):
         malumot_form = BatafsilMalumotForm(request.POST)
         if malumot_form.is_valid():
-            product = GulProduct.objects.get(pk=pk)
+            product = Products.objects.get(pk=pk)
             malumot = malumot_form.save(commit=False)
             malumot.product = product
             malumot.save()
@@ -113,7 +113,7 @@ class MalumotView(View):
 
 class ExpensiveProduct(View):
     def get(self, request):
-        products = GulProduct.objects.all()
+        products = Products.objects.all()
         sorted_expensive = products.order_by('-price')[:3]
 
         return render(request, 'gul/expensive.html', {'products': sorted_expensive})
@@ -121,7 +121,7 @@ class ExpensiveProduct(View):
 
 class CheapProduct(View):
     def get(self, request):
-        products = GulProduct.objects.all()
+        products = Products.objects.all()
         sorted_cheap = products.order_by('price')[:3]
 
         return render(request, 'gul/arzon.html', {'products': sorted_cheap})

@@ -1,62 +1,87 @@
 {% extends "base.html" %}
 
-{% block title %} Gul Details {% endblock %}
+{% block title %}Details{% endblock %}
 
 {% block content %}
     <style>
-        /* CSS styles for product details */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .product-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .product-item {
-            flex: 0 1 calc(25% - 20px);
-            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .product-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .product-item img {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+        .product-item img:hover {
+            transform: scale(1.05);
         }
 
         .product-item a {
             color: #333;
             text-decoration: none;
+            font-size: 18px;
+            margin-bottom: 10px;
             display: block;
-            margin-bottom: 5px;
+            transition: color 0.3s;
         }
 
         .product-item a:hover {
-            text-decoration: underline;
+            color: #007bff;
+        }
+
+        .product-item .price {
+            color: #28a745;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 30px;
         }
     </style>
 
-
-
-
-
-
-
-    <h1 style="text-align: center">Category All</h1>
+    <h1>Category All</h1>
 
     <div class="product-container">
         {% for i in detail_all %}
             <div class="product-item">
                 <img src="{{ i.image.url }}" alt="Product Image">
+                <a>{{ i.category.name }}</a>
                 <a>{{ i.name }}</a>
-                <a>{{ i.price }}</a>
-                <a href="{% url 'product:batafsil-review' i.pk%}">Batafsil</a>
-                <a href="{% url 'product:gul-delete' i.pk%}">Delete</a>
-            </div>
+                <div class="price">{{ i.price }}</div>
+                <a href="{% url 'product:batafsil-review' i.pk %}">Batafsil</a>
+                </div>
         {% endfor %}
     </div>
 

@@ -2,65 +2,125 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Product Details</title>
     <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #555;
+            --background-color: #f8f8f8;
+            --text-color: #333;
+            --border-color: #ddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
+            background-color: var(--background-color);
+            animation: fadeIn 1s ease-in-out;
         }
 
         h1 {
             text-align: center;
             margin-top: 20px;
-            color: #333;
+            color: var(--text-color);
+            animation: slideUp 1s ease-in-out;
         }
 
         img {
             display: block;
-            margin: 0 auto;
+            margin: 20px auto;
             max-width: 80%;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px var(--shadow-color);
+            animation: fadeIn 1.5s ease-in-out;
         }
 
         h3 {
             margin: 10px 0;
-            color: #555;
+            color: var(--secondary-color);
+            text-align: center;
+            animation: slideUp 1.5s ease-in-out;
+        }
+
+        .comment {
+            margin: 20px auto;
+            padding: 10px;
+            max-width: 80%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            animation: slideUp 2s ease-in-out;
         }
 
         hr {
             border: none;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid var(--border-color);
             margin: 10px 0;
         }
 
-        a {
-            display: block;
+        .links {
             text-align: center;
             margin-top: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        a {
+            display: inline-block;
+            margin: 10px 20px;
+            padding: 10px 15px;
             text-decoration: none;
-            color: #007bff;
+            color: #fff;
+            background-color: var(--primary-color);
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         a:hover {
-            text-decoration: underline;
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
         }
     </style>
 </head>
 <body>
-<h1>Batafsil</h1>
+<h1>Product Details</h1>
 <img src="{{ gul.image.url }}" alt="Product Image">
-<h3 style="text-align:center">Name: {{ gul.name }}</h3>
+<h3>Name: {{ gul.name }}</h3>
 {% for i in view_comment %}
-    <h2>user:{{ i.user }}</h2>
-    <h3>yulduzcha:{{ i.star_given }}</h3>
-    <h3>comment:{{ i.comment }}</h3>
-    <hr>
+    <div class="comment">
+        <h2>User: {{ i.user }}</h2>
+        <h3>Rating: {{ i.star_given }}</h3>
+        <h3>Comment: {{ i.comment }}</h3>
+        <hr>
+    </div>
 {% endfor %}
 
-<a href="{% url 'product:add-comment' gul.pk%}">Add comment</a>
-<a href="{% url 'product:batafsil-malumot' gul.pk%}">Malumot to'ldiring</a>
+<div class="links">
+    <a href="{% url 'product:add-comment' gul.pk %}">Add Comment</a>
+    <a href="{% url 'product:batafsil-malumot' gul.pk %}">Update Information</a>
+</div>
 </body>
 </html>

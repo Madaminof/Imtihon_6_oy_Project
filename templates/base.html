@@ -4,18 +4,45 @@
     <meta charset="UTF-8">
     <title>{% block title %}Categories{% endblock %}</title>
     <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes expandHeader {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            animation: fadeIn 1s ease-in-out;
         }
 
         header {
             background-color: #333;
             color: #fff;
-            padding: 10px 20px;
+            padding: 20px 20px;
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            animation: fadeIn 1s ease-in-out;
         }
 
         nav {
@@ -23,6 +50,7 @@
             justify-content: center;
             background-color: #444;
             padding: 10px 0;
+            animation: slideIn 0.5s ease-out;
         }
 
         nav a {
@@ -30,16 +58,21 @@
             margin: 0 15px;
             text-decoration: none;
             font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         nav a:hover {
-            text-decoration: underline;
+            background-color: #00aaff;
+            transform: scale(1.1);
         }
 
         .Search-container {
             display: flex;
             justify-content: center;
             padding: 20px 0;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .Search-container input[type="text"] {
@@ -47,6 +80,12 @@
             width: 300px;
             border: 1px solid #ddd;
             border-radius: 5px 0 0 5px;
+            transition: box-shadow 0.3s;
+        }
+
+        .Search-container input[type="text"]:focus {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            outline: none;
         }
 
         .Search-container button {
@@ -56,6 +95,7 @@
             color: #fff;
             border-radius: 0 5px 5px 0;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         .Search-container button:hover {
@@ -78,12 +118,18 @@
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .product-item img {
             max-width: 100%;
-            height: 150px; /* Set a fixed height for all images */
-            object-fit: cover; /* Maintain aspect ratio and cover the entire container */
+            height: 150px;
+            object-fit: cover;
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
         }
@@ -102,7 +148,7 @@
         .product-item a {
             display: block;
             margin-top: 10px;
-            margin-bottom: 5px; /* Add margin-bottom to create space between links */
+            margin-bottom: 5px;
             padding: 10px 15px;
             background-color: #333;
             color: #fff;
@@ -119,6 +165,7 @@
             display: flex;
             justify-content: center;
             padding: 10px 0;
+            animation: fadeIn 1s ease-in-out;
         }
 
         .button-container a {
@@ -142,7 +189,8 @@
             padding: 20px 0;
             text-align: center;
             width: 100%;
-            margin-top:450px ;
+            position: relative;
+            animation: slideIn 1s ease-out;
         }
 
         .footer-content {
@@ -161,6 +209,11 @@
             margin-bottom: 5px;
             text-decoration: none;
             color: #fff;
+            transition: color 0.3s;
+        }
+
+        .footer-content a:hover {
+            color: #00aaff;
         }
 
         .footer-content p {
@@ -175,18 +228,25 @@
             text-align: right;
         }
 
-        .product-item img {
-            max-width: 100%;
-            height: 150px; /* Set a fixed height for all images */
-            object-fit: cover; /* Maintain aspect ratio and cover the entire container */
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
+        /* Animations for Expensive and Cheap buttons */
+        .button-container a:nth-child(1) {
+            animation: fadeIn 1s ease-in-out;
         }
+
+        .button-container a:nth-child(2) {
+            animation: fadeIn 1s ease-in-out;
+            animation-delay: 0.5s;
+        }
+
+        /* Animation for expanding header */
+        header {
+            animation: expandHeader 0.5s
+}
     </style>
 </head>
 <body>
     <header>
-        <h1>Gul Products</h1>
+        <h1>Products</h1>
     </header>
     <nav>
         <a href="{% url 'autentification:register' %}">Register</a>
@@ -218,13 +278,13 @@
     </div>
 
     <div class="product-list">
-        {% for product in gul %}
+        {% for p in gul %}
             <div class="product-item">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                <h3>{{ product.name }}</h3>
-                <p>Price: {{ product.price }}</p>
-                <a href="{% url 'product:batafsil-review' product.pk %}">Batafsil</a>
-                <a href="{% url 'product:gul-delete' product.pk %}">Delete</a>
+                <img src="{{ p.image.url }}" alt="{{ p.name }}">
+                <h3>{{ p.category.name }}</h3>
+                <h3>{{ p.name }}</h3>
+                <p>$: {{ p.price }}</p>
+                <a href="{% url 'product:batafsil-review' p.pk %}">Batafsil</a>
             </div>
         {% endfor %}
     </div>

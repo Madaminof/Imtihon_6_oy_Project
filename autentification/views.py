@@ -38,7 +38,7 @@ class LoginView(View):
         if login_form.is_valid():
             user = login_form.get_user()
             login(request, user)
-            return redirect('landing_page')
+            return redirect('product:gul-list')
         else:
             context = {
                 'form': login_form
