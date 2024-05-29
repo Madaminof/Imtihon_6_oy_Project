@@ -125,3 +125,9 @@ class CheapProduct(View):
         sorted_cheap = products.order_by('price')[:3]
 
         return render(request, 'gul/arzon.html', {'products': sorted_cheap})
+
+
+
+
+# Backend2004
+# nsbxjksxjsnjk
